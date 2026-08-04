@@ -1,9 +1,16 @@
 package api
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
 func getDbHost() string{
-  return readValueFromSsmIfSsmPathProvided(os.Getenv("DB_HOST"))
+  host := readValueFromSsmIfSsmPathProvided(os.Getenv("DB_HOST"))
+  if strings.Contains(host, ":") {
+	  return strings.Split(host, ":")[0]
+  }
+  return host
 }
 
 func getDbPort() string{
