@@ -1,6 +1,7 @@
 FROM --platform=amd64 golang:1.17 as build
 WORKDIR /workbench
 COPY . .
+RUN go mod tidy
 RUN GOARCH=amd64 GOOS=linux go build -o /output/api ./main.go
 RUN chmod +x /output/api
 

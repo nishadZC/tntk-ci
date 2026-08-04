@@ -1,6 +1,7 @@
 FROM --platform=amd64 golang:1.17 as build
 WORKDIR /workbench
 COPY . .
+RUN go mod tidy
 RUN apt update && apt install -y unzip
 RUN GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/lambda/output/lambda ./lambda/main.go
 RUN curl -LO https://github.com/SebastiaanKlippert/go-wkhtmltopdf-lambda/releases/download/0.1/lambda.zip  && unzip lambda.zip 'wkhtmltopdf' -d bin/lambda/output && rm -f lambda.zip
