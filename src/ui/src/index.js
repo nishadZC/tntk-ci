@@ -7,8 +7,8 @@ import App from './App';
 import reportWebVitals from "./reportWebVitals";
 import { store } from './redux/store';
 
-const host = window.location.hostname;
-axios.defaults.baseURL = "https://" + host
+const host = window.location.host;
+axios.defaults.baseURL = window.location.protocol + "//" + host;
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 

@@ -57,7 +57,7 @@ function register(name, password) {
       });
       history.push("/login");
     } catch (e) {
-      dispatch({ type: Auth.FETCH_ERROR, payload: e.response.data });
+      dispatch({ type: Auth.FETCH_ERROR, payload: e.response && e.response.data ? e.response.data : e.message });
     }
   };
 }
