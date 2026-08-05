@@ -121,8 +121,6 @@ Operational components:
 </li>
 <li><b>ACK Lambda Controller</b>: ACK stands for "AWS Controllers for Kubernetes," and the ACK Lambda Controller is a specific implementation within ACK. It is responsible for managing the interaction between Kubernetes clusters and AWS Lambda functions. It allows you to deploy and manage Lambda functions using Kubernetes native resources and tools. This component was specifically chosen to adhere to the GitOps approach of deploying applications.
 </li>
-<li><b>Datadog</b> is a comprehensive monitoring and analytics platform that provides real-time visibility into the performance and health of your infrastructure, applications, and services. It offers a wide range of features including metrics monitoring, log management, application performance monitoring (APM), and more. With Datadog, you can easily collect, analyze, and visualize data from various sources, enabling you to optimize performance, troubleshoot issues, and make data-driven decisions for your organization.
-</li>
 </ul>
 Application component:
 <ul>
