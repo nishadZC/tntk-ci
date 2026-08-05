@@ -44,6 +44,10 @@ spec:
             httpGet:
               path: /api/metrics
               port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 1
           readinessProbe:
             httpGet:
               path: /api/metrics
