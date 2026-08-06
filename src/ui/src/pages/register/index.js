@@ -7,15 +7,40 @@ import Box from "@material-ui/core/Box";
 import { userActions } from "../../redux/actions/auth";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import bg from "../../assets/img/bg.png";
-
 const useStyles = makeStyles((theme) => ({
     container: {
-        background: `url(${bg}) no-repeat`,
+        background: "linear-gradient(135deg, #0f172a 0%, #1e40af 100%)",
         backgroundSize: "cover",
         display: "flex",
         padding: "2.5vh",
         position: "relative",
+        alignItems: "center",
+    },
+    brandSection: {
+        flex: 1,
+        color: "white",
+        padding: "0 5%",
+        display: "none",
+        "@media (min-width: 900px)": {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+        }
+    },
+    brandTitle: {
+        fontSize: "4rem",
+        fontWeight: 800,
+        marginBottom: "1rem",
+        fontFamily: '"Inter", "Roboto", sans-serif',
+        letterSpacing: "-1px",
+    },
+    brandSubtitle: {
+        fontSize: "1.25rem",
+        fontWeight: 400,
+        opacity: 0.9,
+        maxWidth: 500,
+        lineHeight: 1.6,
+        fontFamily: '"Inter", "Roboto", sans-serif',
     },
     title: {
         fontSize: 44,
@@ -117,6 +142,12 @@ function Register() {
 
     return (
         <Box className={styles.container}>
+            <Box className={styles.brandSection}>
+                <h1 className={styles.brandTitle}>TNTK CI/CD</h1>
+                <p className={styles.brandSubtitle}>
+                    Join us and streamline your DevOps pipeline. Build, test, and deploy with confidence and unparalleled speed.
+                </p>
+            </Box>
             <form className={styles.form} onSubmit={onSubmit} noValidate>
                 <h1 className={styles.title}>Welcome back!</h1>
                 <p className="caption" style={{ marginBottom: 50 }}>
