@@ -92,7 +92,7 @@ ingress:
       # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     hosts:
-      - host: demo.projects.tentech.vok.today
+      - host: tntk.paradisescubagoa.in
         paths:
           - path: /api
             pathType: Prefix
