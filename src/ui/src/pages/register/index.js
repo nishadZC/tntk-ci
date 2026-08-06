@@ -7,14 +7,19 @@ import Box from "@material-ui/core/Box";
 import { userActions } from "../../redux/actions/auth";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
 const useStyles = makeStyles((theme) => ({
     container: {
-        background: "linear-gradient(135deg, #0f172a 0%, #1e40af 100%)",
+        background: "#0f172a",
+        backgroundImage: "radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%)",
         backgroundSize: "cover",
         display: "flex",
-        padding: "2.5vh",
+        minHeight: "100vh",
         position: "relative",
         alignItems: "center",
+        justifyContent: "center",
+        padding: "20px",
     },
     brandSection: {
         flex: 1,
@@ -25,80 +30,84 @@ const useStyles = makeStyles((theme) => ({
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            paddingRight: "10%",
         }
     },
     brandTitle: {
-        fontSize: "4rem",
+        fontSize: "4.5rem",
         fontWeight: 800,
         marginBottom: "1rem",
-        fontFamily: '"Inter", "Roboto", sans-serif',
         letterSpacing: "-1px",
+        background: "linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)",
+        "-webkit-background-clip": "text",
+        "-webkit-text-fill-color": "transparent",
+        animation: "slideUp 0.8s ease-out forwards",
     },
     brandSubtitle: {
         fontSize: "1.25rem",
         fontWeight: 400,
-        opacity: 0.9,
+        opacity: 0.8,
         maxWidth: 500,
         lineHeight: 1.6,
-        fontFamily: '"Inter", "Roboto", sans-serif',
+        animation: "slideUp 0.8s ease-out 0.2s forwards",
+        opacity: 0,
     },
-    title: {
-        fontSize: 44,
-        fontWeight: 700,
-        maxWidth: 300,
-        marginBottom: 20,
-        lineHeight: "52px",
+    formContainer: {
+        width: "100%",
+        maxWidth: 480,
+        animation: "fadeIn 1s ease-out 0.4s forwards",
+        opacity: 0,
     },
     form: {
-        background: "#fff",
-        width: 480,
-        height: "95vh",
-        minHeight: 700,
-        borderRadius: 16,
-        marginLeft: "auto",
-        marginRight: "2.5%",
-        padding: "70px 50px 40px",
+        padding: "50px 40px",
         display: "flex",
         flexDirection: "column",
+        background: "rgba(30, 41, 59, 0.4)",
+        backdropFilter: "blur(20px)",
+        border: "1px solid rgba(255, 255, 255, 0.05)",
+        borderRadius: 24,
+        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+    },
+    title: {
+        fontSize: 36,
+        fontWeight: 700,
+        marginBottom: 10,
+        color: "#fff",
+    },
+    subtitle: {
+        color: "rgba(255, 255, 255, 0.6)",
+        marginBottom: 40,
+        fontSize: "1rem",
     },
     errorMessage: {
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: 500,
-        color: "#eb5757",
+        color: "#f87171",
         marginTop: 15,
+        textAlign: "center",
+        backgroundColor: "rgba(248, 113, 113, 0.1)",
+        padding: "10px",
+        borderRadius: "8px",
     },
-
-    textFieldRoot: {
-        backgroundColor: theme.palette.common.inputbg,
-        borderRadius: 12,
-        "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-            border: "1px solid #f44336",
-        },
-    },
-
     btn: {
-        marginTop: "auto",
-        width: 200,
-        alignSelf: "flex-end",
-        boxShadow: "none",
-        color: "#fff"
+        marginTop: 30,
+        height: 52,
     },
-
-    focused: {
-        backgroundColor: theme.palette.common.inputbg,
+    link: {
+        color: "#60a5fa",
+        textDecoration: "none",
+        fontWeight: 500,
+        transition: "color 0.2s",
+        "&:hover": {
+            color: "#93c5fd",
+        }
     },
-
-    label: {
-        color: "#000",
-    },
-
-    notchedOutline: {
-        border: "none",
-    },
-
-    error: {
-        color: "#f44336",
-    },
+    signUpRow: {
+        marginTop: 25,
+        textAlign: "center",
+        color: "rgba(255, 255, 255, 0.6)",
+        fontSize: "0.9rem",
+    }
 }));
 
 function Register() {
@@ -143,83 +152,69 @@ function Register() {
     return (
         <Box className={styles.container}>
             <Box className={styles.brandSection}>
-                <h1 className={styles.brandTitle}>TNTK CI/CD</h1>
-                <p className={styles.brandSubtitle}>
+                <Typography variant="h1" className={styles.brandTitle}>
+                    Apex CI/CD
+                </Typography>
+                <Typography className={styles.brandSubtitle}>
                     Join us and streamline your DevOps pipeline. Build, test, and deploy with confidence and unparalleled speed.
-                </p>
+                </Typography>
             </Box>
-            <form className={styles.form} onSubmit={onSubmit} noValidate>
-                <h1 className={styles.title}>Welcome back!</h1>
-                <p className="caption" style={{ marginBottom: 50 }}>
-                    Please enter your username and password.
-                </p>
-                <Box>
-                    <TextField
-                        label="Username"
-                        name="username"
-                        fullWidth
-                        variant="outlined"
-                        style={{ marginBottom: 20 }}
-                        value={values.username}
-                        onChange={hangleChange}
-                        onFocus={onFocus}
-                        error={!isValidData}
-                        InputProps={{
-                            classes: {
-                                root: styles.textFieldRoot,
-                                focused: styles.focused,
-                                notchedOutline: styles.notchedOutline,
-                                error: styles.error,
-                            },
-                        }}
-                        InputLabelProps={{
-                            classes: { root: styles.label },
-                        }}
-                    />
+            
+            <Box className={styles.formContainer}>
+                <form className={styles.form} onSubmit={onSubmit} noValidate>
+                    <Typography variant="h2" className={styles.title}>Create Account</Typography>
+                    <Typography className={styles.subtitle}>
+                        Sign up to get started with Apex.
+                    </Typography>
+                    
+                    <Box display="flex" flexDirection="column" gap={2.5}>
+                        <TextField
+                            label="Username"
+                            name="username"
+                            fullWidth
+                            variant="outlined"
+                            style={{ marginBottom: 20 }}
+                            value={values.username}
+                            onChange={hangleChange}
+                            onFocus={onFocus}
+                            error={!isValidData}
+                        />
 
-                    <TextField
-                        label="Password"
-                        name="password"
-                        type="password"
-                        fullWidth
-                        variant="outlined"
-                        style={{ marginBottom: 20 }}
-                        value={values.password}
-                        onChange={hangleChange}
-                        onFocus={onFocus}
-                        error={!isValidData}
-                        InputProps={{
-                            classes: {
-                                root: styles.textFieldRoot,
-                                focused: styles.focused,
-                                notchedOutline: styles.notchedOutline,
-                                error: styles.error,
-                            },
-                        }}
-                        InputLabelProps={{
-                            classes: { root: styles.label },
-                        }}
-                    />
+                        <TextField
+                            label="Password"
+                            name="password"
+                            type="password"
+                            fullWidth
+                            variant="outlined"
+                            value={values.password}
+                            onChange={hangleChange}
+                            onFocus={onFocus}
+                            error={!isValidData}
+                        />
 
-                    {!isValidData ? (
-                        <div className={styles.errorMessage}>
-                            {loginError}
-                        </div>
-                    ) : null}
-                </Box>
-                <div>
-                    Have account? <NavLink to="/login">Enter</NavLink>
-                </div>
-                <Button
-                    type="submit"
-                    color={values.username && values.password ? "primary" : "secondary"}
-                    size="large"
-                    variant="contained"
-                    className={styles.btn}
-                >
-                    {loading ? <CircularProgress size={16} /> : "Sign Up"}
-                </Button>
-            </form>
+                        {!isValidData && (
+                            <div className={styles.errorMessage}>
+                                {loginError || "Registration failed"}
+                            </div>
+                        )}
+                    </Box>
+                    
+                    <Button
+                        type="submit"
+                        color="primary"
+                        variant="contained"
+                        className={styles.btn}
+                        fullWidth
+                        disabled={!values.username || !values.password}
+                    >
+                        {loading ? <CircularProgress size={24} color="inherit" /> : "Sign Up"}
+                    </Button>
+                    
+                    <div className={styles.signUpRow}>
+                        Already have an account? <NavLink to="/login" className={styles.link}>Sign In</NavLink>
+                    </div>
+                </form>
+            </Box>
         </Box>
     );
 }

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Provider } from 'react-redux';
 
 import App from './App';
+import './index.css';
 import reportWebVitals from "./reportWebVitals";
 import { store } from './redux/store';
 
