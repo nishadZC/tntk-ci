@@ -109,7 +109,7 @@ jobs:
             --set api.image.tag=$SHA8 \
             --set ui.image.repository=$REGISTRY/$ENVIRONMENT/ui \
             --set ui.image.tag=$SHA8 \
-            --set ingress.ingress.hosts[0].host=$APPLICATION_NAME.$ENVIRONMENT.$BASE_DOMAIN \
+            --set ingress.ingress.hosts[0].host=$BASE_DOMAIN \
             --set api.configmapData.SSM_PREFIX=/$ENVIRONMENT \
             --set api.configmapData.AWS_REGION=$AWS_REGION \
             --set lambda.code.imageURI=$REGISTRY/$ENVIRONMENT/lambda:$SHA8 \
