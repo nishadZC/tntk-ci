@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD
+=======
+import CircularProgress from "@material-ui/core/CircularProgress";
+>>>>>>> 4111df05393e68f09c82fd0fe256a9be0a25d70c
 import { apiConfig } from "../helpers/api";
 import Layout from "../layouts/index";
 import { openModal } from "../redux/actions/modal";
 import { saveAs } from 'file-saver';
+import { toast } from 'react-toastify';
 
 const Home = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [files, setFiles] = useState(null);
+  const [downloadingFile, setDownloadingFile] = useState(null);
+  const [deletingFile, setDeletingFile] = useState(null);
 
   useEffect(() => {
     const requestOptions = {
@@ -53,6 +60,7 @@ const Home = () => {
   };
 
   const downloadPdf = (file) => {
+    setDownloadingFile(file);
     const requestOptions = {
       headers: {
         'Token': user.token
@@ -62,10 +70,21 @@ const Home = () => {
     axios.get(`${apiConfig.getFile}/${file}`, requestOptions)
       .then(response => {
         saveAs(response.data, file);
+<<<<<<< HEAD
+=======
+        toast.success(`Successfully downloaded ${file}`);
+      })
+      .catch((error) => {
+        toast.error(`Failed to download ${file}`);
+      })
+      .finally(() => {
+        setDownloadingFile(null);
+>>>>>>> 4111df05393e68f09c82fd0fe256a9be0a25d70c
       })
   };
 
   const deletePdf = (file) => {
+    setDeletingFile(file);
     const requestOptions = {
         headers: {
             'Token' : user.token
@@ -73,8 +92,20 @@ const Home = () => {
     }
     axios.delete(`${apiConfig.deleteFile}/${file}`, requestOptions)
       .then(() => {
+<<<<<<< HEAD
         reload();
       })
+=======
+        toast.success(`Deleted ${file}`);
+        reload();
+      })
+      .catch((err) => {
+        toast.error(`Failed to delete ${file}`);
+      })
+      .finally(() => {
+        setDeletingFile(null);
+      })
+>>>>>>> 4111df05393e68f09c82fd0fe256a9be0a25d70c
   }
 
   return (
@@ -140,8 +171,14 @@ const Home = () => {
                         padding: "6px 16px"
                       }}
                       onClick={() => downloadPdf(file)}
+<<<<<<< HEAD
                     >
                       Download
+=======
+                      disabled={downloadingFile === file}
+                    >
+                      {downloadingFile === file ? <CircularProgress size={20} style={{ color: "#fff" }} /> : "Download"}
+>>>>>>> 4111df05393e68f09c82fd0fe256a9be0a25d70c
                     </Button>
                     <Button
                       style={{ 
@@ -153,8 +190,14 @@ const Home = () => {
                         padding: "6px 16px"
                       }}
                       onClick={() => deletePdf(file)}
+<<<<<<< HEAD
                     >
                       Delete
+=======
+                      disabled={deletingFile === file}
+                    >
+                      {deletingFile === file ? <CircularProgress size={20} style={{ color: "#ef4444" }} /> : "Delete"}
+>>>>>>> 4111df05393e68f09c82fd0fe256a9be0a25d70c
                     </Button>
                   </div>
                 </div>

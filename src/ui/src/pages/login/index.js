@@ -5,6 +5,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import { userActions } from "../../redux/actions/auth";
+<<<<<<< HEAD
+=======
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { toast } from 'react-toastify';
+>>>>>>> 4111df05393e68f09c82fd0fe256a9be0a25d70c
 import { makeStyles } from "@material-ui/core/styles";
 import bg from "../../assets/img/new_bg.png";
 
@@ -140,6 +145,7 @@ function Login() {
     useEffect(() => {
         if (loginError) {
             setIsValidData(false);
+            toast.error(loginError);
         }
     }, [loginError]);
 
