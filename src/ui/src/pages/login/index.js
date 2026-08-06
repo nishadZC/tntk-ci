@@ -6,75 +6,126 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import { userActions } from "../../redux/actions/auth";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { toast } from 'react-toastify';
 import { makeStyles } from "@material-ui/core/styles";
-import bg from "../../assets/img/bg.png";
+import bg from "../../assets/img/new_bg.png";
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        background: `url(${bg}) no-repeat`,
+        background: `url(${bg}) no-repeat center center`,
         backgroundSize: "cover",
         display: "flex",
-        padding: "2.5vh",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
         position: "relative",
     },
     title: {
-        fontSize: 44,
-        fontWeight: 700,
-        maxWidth: 300,
-        marginBottom: 20,
-        lineHeight: "52px",
+        fontSize: 40,
+        fontWeight: 800,
+        marginBottom: 10,
+        fontFamily: '"Inter", "Roboto", sans-serif',
+        letterSpacing: "-0.5px",
+        color: "#fff",
+    },
+    caption: {
+        color: "#cbd5e1",
+        fontSize: 16,
+        marginBottom: 40,
+        fontFamily: '"Inter", "Roboto", sans-serif',
     },
     form: {
-        background: "#142536",
+        background: "rgba(15, 23, 42, 0.65)",
+        backdropFilter: "blur(16px)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
         color: "white",
-        width: 480,
-        height: "95vh",
-        minHeight: 700,
-        borderRadius: 16,
-        marginLeft: "auto",
-        marginRight: "2.5%",
-        padding: "70px 50px 40px",
+        width: "100%",
+        maxWidth: 440,
+        borderRadius: 24,
+        padding: "60px 50px",
         display: "flex",
         flexDirection: "column",
     },
-    errorMessage: {
-        fontSize: 12,
-        fontWeight: 500,
-        color: "#eb5757",
-        marginTop: 15,
-    },
-
     textFieldRoot: {
-        backgroundColor: theme.palette.common.inputbg,
+        backgroundColor: "rgba(255, 255, 255, 0.08)",
         borderRadius: 12,
-        "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-            border: "1px solid #f44336",
+        transition: "all 0.3s ease",
+        "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.12)",
         },
+        "&.Mui-focused": {
+            backgroundColor: "rgba(255, 255, 255, 0.15)",
+            boxShadow: "0 0 0 2px rgba(99, 102, 241, 0.5)",
+        },
+        "&.Mui-error .MuiOutlinedInput-notchedOutline": {
+            border: "1px solid #ef4444",
+        },
+        "& input": {
+            color: "#fff",
+            fontFamily: '"Inter", "Roboto", sans-serif',
+        }
     },
-
-    btn: {
-        marginTop: "auto",
-        width: 200,
-        alignSelf: "flex-end",
-        boxShadow: "none",
-        color: "#fff"
-    },
-
-    focused: {
-        backgroundColor: theme.palette.common.inputbg,
-    },
-
-    label: {
-        color: "#000",
-    },
-
     notchedOutline: {
         border: "none",
     },
-
-    error: {
-        color: "#f44336",
+    label: {
+        color: "rgba(255, 255, 255, 0.6)",
+        fontFamily: '"Inter", "Roboto", sans-serif',
+        "&.Mui-focused": {
+            color: "#fff",
+        }
     },
+    focused: {},
+    error: {
+        color: "#ef4444",
+    },
+    errorMessage: {
+        fontSize: 14,
+        fontWeight: 500,
+        color: "#ef4444",
+        marginTop: 15,
+        textAlign: "center",
+    },
+    btn: {
+        marginTop: 30,
+        padding: "14px 0",
+        borderRadius: 12,
+        background: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
+        color: "#fff",
+        fontWeight: 600,
+        fontSize: 16,
+        textTransform: "none",
+        boxShadow: "0 4px 14px 0 rgba(99, 102, 241, 0.39)",
+        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+        "&:hover": {
+            transform: "translateY(-2px)",
+            boxShadow: "0 6px 20px 0 rgba(99, 102, 241, 0.5)",
+        },
+        "&.Mui-disabled": {
+            background: "rgba(255, 255, 255, 0.1)",
+            color: "rgba(255, 255, 255, 0.3)",
+            boxShadow: "none",
+        }
+    },
+    signupLink: {
+        marginTop: 20,
+        textAlign: "center",
+        color: "#94a3b8",
+        fontSize: 15,
+        fontFamily: '"Inter", "Roboto", sans-serif',
+        "& a": {
+            color: "#a855f7",
+            textDecoration: "none",
+            fontWeight: 600,
+            marginLeft: 5,
+            transition: "color 0.2s ease",
+            "&:hover": {
+                color: "#c084fc",
+                textDecoration: "underline",
+            }
+        }
+    }
 }));
 
 function Login() {
@@ -92,6 +143,7 @@ function Login() {
     useEffect(() => {
         if (loginError) {
             setIsValidData(false);
+            toast.error(loginError);
         }
     }, [loginError]);
 
@@ -119,7 +171,7 @@ function Login() {
         <Box className={styles.container}>
             <form className={styles.form} onSubmit={onSubmit} noValidate>
                 <h1 className={styles.title}>Welcome back!</h1>
-                <p className="caption" style={{ marginBottom: 50 }}>
+                <p className={styles.caption}>
                     Please enter your username and password.
                 </p>
                 <Box>
@@ -176,8 +228,8 @@ function Login() {
                         </div>
                     ) : null}
                 </Box>
-                <div>
-                    <NavLink to={'/register'}>Sign up</NavLink>
+                <div className={styles.signupLink}>
+                    Don't have an account? <NavLink to={'/register'}>Sign up</NavLink>
                 </div>
                 <Button
                     type="submit"

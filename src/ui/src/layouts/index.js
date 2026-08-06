@@ -9,8 +9,10 @@ import Paper from "@material-ui/core/Paper";
 const useStyles = makeStyles((theme) => ({
   "@global": {
     body: {
-      background: theme.palette.common.bg,
+      background: "#0f172a",
       overflowY: "auto",
+      color: "#f8fafc",
+      fontFamily: '"Inter", "Roboto", sans-serif',
     },
   },
 
@@ -22,8 +24,14 @@ const useStyles = makeStyles((theme) => ({
 
   handlers: {
     position: "absolute",
-    top: 45,
-    right: theme.spacing(4),
+    top: 30,
+    right: theme.spacing(5),
+    background: "rgba(255, 255, 255, 0.05)",
+    backdropFilter: "blur(10px)",
+    padding: "10px 20px",
+    borderRadius: 20,
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
   },
 
   handlersRow: {
