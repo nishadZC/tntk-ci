@@ -35,34 +35,107 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    background: "linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%)",
+    backdropFilter: "blur(20px)",
+    border: "1px solid rgba(255, 255, 255, 0.05)",
+    borderRadius: 24,
+    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+    position: "relative",
+    overflow: "hidden",
+    "&:before": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: "4px",
+      background: "linear-gradient(90deg, #3b82f6, #8b5cf6)",
+      opacity: 0,
+      transition: "opacity 0.3s ease",
+    },
     "&:hover": {
-      transform: "translateY(-5px)",
-      boxShadow: "0 12px 24px rgba(0, 0, 0, 0.3)",
-      borderColor: "rgba(59, 130, 246, 0.4)",
+      transform: "translateY(-8px)",
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.1)",
+      border: "1px solid rgba(59, 130, 246, 0.3)",
+      "&:before": {
+        opacity: 1,
+      }
     },
   },
   cardContent: {
     flexGrow: 1,
+    padding: "32px 24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
   },
   fileName: {
-    fontWeight: 500,
-    fontSize: "1.1rem",
+    fontWeight: 600,
+    fontSize: "1.15rem",
     wordBreak: "break-all",
-    color: "#fff",
+    color: "#f8fafc",
+    marginTop: 16,
+    lineHeight: 1.4,
   },
   fileIcon: {
-    background: "rgba(59, 130, 246, 0.1)",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    display: "inline-flex",
+    background: "linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)",
+    borderRadius: "50%",
+    width: 72,
+    height: 72,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     color: "#60a5fa",
+    boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+    border: "1px solid rgba(255, 255, 255, 0.05)",
+    transition: "transform 0.3s ease",
+    "& svg": {
+      width: 32,
+      height: 32,
+    },
+    "$card:hover &": {
+      transform: "scale(1.1)",
+    }
   },
-  actionButton: {
-    borderRadius: 8,
+  actionContainer: {
+    padding: "0 24px 24px",
+    display: "flex",
+    gap: 12,
+    width: "100%",
+    boxSizing: "border-box",
+  },
+  downloadBtn: {
+    flex: 1,
+    borderRadius: 12,
+    background: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)",
+    color: "#fff",
+    border: "none",
+    padding: "10px",
+    fontWeight: 600,
     textTransform: "none",
-    fontWeight: 500,
+    boxShadow: "0 4px 12px rgba(59, 130, 246, 0.2)",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      background: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
+      boxShadow: "0 8px 16px rgba(59, 130, 246, 0.4)",
+      transform: "translateY(-2px)",
+    }
+  },
+  deleteBtn: {
+    borderRadius: 12,
+    padding: "10px",
+    minWidth: "48px",
+    width: "48px",
+    background: "rgba(239, 68, 68, 0.1)",
+    color: "#ef4444",
+    border: "1px solid rgba(239, 68, 68, 0.2)",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      background: "rgba(239, 68, 68, 0.2)",
+      border: "1px solid rgba(239, 68, 68, 0.4)",
+      transform: "translateY(-2px)",
+    }
   },
   emptyState: {
     textAlign: "center",
@@ -179,26 +252,22 @@ const Home = () => {
                       {file}
                     </Typography>
                   </CardContent>
-                  <CardActions style={{ padding: '16px', paddingTop: 0, justifyContent: 'space-between' }}>
+                  <Box className={classes.actionContainer}>
                     <Button
-                      size="small"
-                      color="primary"
-                      variant="outlined"
-                      className={classes.actionButton}
+                      className={classes.downloadBtn}
                       onClick={() => downloadPdf(file)}
                     >
                       Download
                     </Button>
                     <Button
-                      size="small"
-                      style={{ color: '#f87171', borderColor: 'rgba(248, 113, 113, 0.3)' }}
-                      variant="outlined"
-                      className={classes.actionButton}
+                      className={classes.deleteBtn}
                       onClick={() => deletePdf(file)}
                     >
-                      Delete
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 7L18.1327 19.1425C18.0579 20.1891 17.187 21 16.1378 21H7.86224C6.81296 21 5.94208 20.1891 5.86732 19.1425L5 7M10 11V17M14 11V17M15 7V4C15 3.44772 14.5523 3 14 3H10C9.44772 3 9 3.44772 9 4V7M4 7H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
                     </Button>
-                  </CardActions>
+                  </Box>
                 </Card>
               </Grid>
             ))}
