@@ -18,6 +18,7 @@ spec:
     variables:
       S3_BUCKET_NAME: {{ .Values.env }}-app-output-files-{{ .Values.account_id }}
       DYNAMODB_TABLE_NAME: {{ .Values.env }}-pdf-files-per-user-descriptors
+      ACCOUNT_ID: "{{ .Values.account_id }}"
 
 
 
