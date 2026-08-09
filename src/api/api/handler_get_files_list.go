@@ -31,7 +31,7 @@ func handleAuthorizedFilesListFromDynamoDbEntry(ctx *gin.Context, authentication
 
 func handleFilesListNotFoundInDynamoDbEntry(ctx *gin.Context, filenamesInDynamoDbJsonString string) {
   if isFilesListNotFoundInDynamoDbEntry(filenamesInDynamoDbJsonString) {
-    ctx.String(http.StatusNotFound, "[]")
+    ctx.String(http.StatusOK, "[]")
   }
 }
 

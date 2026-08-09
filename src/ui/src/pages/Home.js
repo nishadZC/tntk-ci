@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     backdropFilter: "blur(20px)",
     border: "1px solid rgba(255, 255, 255, 0.05)",
     borderRadius: 24,
+    padding: 20,
     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
     position: "relative",
     overflow: "hidden",

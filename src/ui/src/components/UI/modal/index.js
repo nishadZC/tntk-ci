@@ -19,8 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   paper: {
-    background: theme.palette.common.white,
-    boxShadow: "12px 8px 32px rgba(46, 71, 97, 0.3)",
+    background: theme.palette.background.paper,
+    backdropFilter: "blur(16px)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    boxShadow: "12px 8px 32px rgba(0, 0, 0, 0.3)",
     borderRadius: theme.spacing(2),
     padding: 50,
     position: "relative",
