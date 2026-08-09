@@ -31,13 +31,13 @@ func handleAuthorizedFilesListFromDynamoDbEntry(ctx *gin.Context, authentication
 
 func handleFilesListNotFoundInDynamoDbEntry(ctx *gin.Context, filenamesInDynamoDbJsonString string) {
   if isFilesListNotFoundInDynamoDbEntry(filenamesInDynamoDbJsonString) {
-    ctx.String(http.StatusOK, "[]")
+    ctx.Data(http.StatusOK, "application/json; charset=utf-8", []byte("[]"))
   }
 }
 
 func handleFilesListFoundInDynamoDbEntry(ctx *gin.Context, filenamesInDynamoDbJsonString string) {
   if isFilesListFoundInDynamoDbEntry(filenamesInDynamoDbJsonString) {
-    ctx.String(http.StatusOK, filenamesInDynamoDbJsonString)
+    ctx.Data(http.StatusOK, "application/json; charset=utf-8", []byte(filenamesInDynamoDbJsonString))
   }
 }
 

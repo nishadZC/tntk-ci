@@ -166,7 +166,7 @@ const Home = () => {
       })
   }, [user.token])
 
-  const reload = () => {
+  const reload = (currentCount = files ? files.length : 0, attempts = 0) => {
     setTimeout(() => {
       const requestOptions = {
         headers: {
@@ -176,9 +176,14 @@ const Home = () => {
 
       axios.get(`${apiConfig.getFiles}`, requestOptions)
         .then((res) => {
-          setFiles(res.data);
+          const newFiles = res.data || [];
+          setFiles(newFiles);
+          
+          if (newFiles.length === currentCount && attempts < 5) {
+            reload(currentCount, attempts + 1);
+          }
         })
-    }, 2000)
+    }, 3000)
   };
 
   const addPdf = () => {
