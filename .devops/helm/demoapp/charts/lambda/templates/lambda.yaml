@@ -12,8 +12,8 @@ spec:
     imageURI: {{ .Values.code.imageURI }}
   role: arn:aws:iam::{{ .Values.account_id }}:role/{{ .Values.env }}-lambda-execution-role
   description: function created by ACK lambda-controller
-  timeout: 30
-  memorySize: 256
+  timeout: 300
+  memorySize: 512
   environment:
     variables:
       S3_BUCKET_NAME: {{ .Values.env }}-app-output-files-{{ .Values.account_id }}
