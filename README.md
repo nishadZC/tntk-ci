@@ -9,6 +9,44 @@ This is a learning application that is designed for those who are learning DevOp
 ## Architecture diagram
 ![Screenshot](img/arch.png)
 
+## End-to-End User Flow
+
+### 1. User Sign Up (Registration)
+* **Action:** The user visits the UI (hosted on EKS) and submits a registration form with a username and password.
+* **API Handling:** The UI sends a `POST /signup` request to the Go API.
+* **Storage (Aurora PostgreSQL):** The API hashes the user's password (e.g., using bcrypt) and inserts a new user record into the Amazon Aurora PostgreSQL database.
+* **Response:** The API responds with a `201 Created` success message.
+
+### 2. User Sign In (Authentication)
+* **Action:** The user submits their username and password to log in.
+* **API Handling:** The UI sends a `POST /login` request to the API.
+* **Verification (Aurora):** The API queries Aurora PostgreSQL to find the user and verifies the hashed password.
+* **Token Generation:** Upon successful verification, the API generates a JWT (JSON Web Token). This token contains a payload with the user's identity (e.g., username or user_id) and an expiration time.
+* **Response:** The API returns the JWT to the UI, which stores it (e.g., in localStorage or a secure HTTP-only cookie).
+
+### 3. Authenticated Request (Requesting a PDF)
+* **Action:** The logged-in user enters a web URL in the UI and clicks "Convert to PDF".
+* **API Handling:** The UI sends a `POST /convert` request to the API. It includes the JWT in the `Authorization: Bearer <token>` header.
+* **Authorization:** The API validates the JWT signature and checks if it's expired. If valid, it extracts the username from the token.
+* **Queueing (SQS):** The API constructs a message payload containing the URL to convert and the username. It sends this message to the Amazon SQS Queue (`conversion-to-pdf.fifo`).
+* **Response:** The API immediately responds to the UI with a `202 Accepted` status, indicating the job has been queued.
+
+### 4. Background Processing (Lambda & SQS)
+* **Trigger:** The SQS queue triggers the AWS Lambda function via the Event Source Mapping.
+* **Execution:** The Lambda function reads the message, extracts the URL and username, and runs `wkhtmltopdf` to generate the PDF file in its local `/tmp` storage.
+* **Cleanup:** The Lambda function calls the API (or AWS SDK directly) to delete the processed message from the SQS queue so it isn't processed twice.
+
+### 5. Storage (S3 & DynamoDB)
+* **File Storage (S3):** The Lambda function uploads the generated `.pdf` file to the Amazon S3 Bucket (`app-output-files`). It organizes it using the username as a folder prefix (e.g., `s3://bucket-name/username/file.pdf`).
+* **Metadata Storage (DynamoDB):** Upon successful S3 upload, the Lambda function updates the Amazon DynamoDB table (`pdf-files-per-user-descriptors`). It updates the list of files associated with that specific username.
+
+### 6. Fetching the Results (UI -> API)
+* **Action:** The user visits their "My Files" dashboard on the UI.
+* **API Handling:** The UI sends a `GET /files` request to the API (again, passing the JWT for authentication).
+* **Retrieval (DynamoDB):** The API verifies the JWT, extracts the username, and queries the DynamoDB table to get the list of PDF filenames belonging to that user.
+* **Presigned URLs (Optional):** If the S3 bucket is private, the API can generate temporary S3 Presigned URLs for each file so the user can download them securely.
+* **Response:** The API returns the list of files (and URLs) to the UI, which renders them for the user to download.
+
 ## Application layers
 To visualize the entire app scope and understand what is in our application STACK, let’s look at it in layers and go through each. We have identified six primary layers, the application of which consists of the frontend, the backend, queues, serverless, databases, and object storage.
 
