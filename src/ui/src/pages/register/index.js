@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: 500,
         lineHeight: 1.6,
         animation: "slideUp 0.8s ease-out 0.2s forwards",
-        opacity: 0,
     },
     formContainer: {
         width: "100%",

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Grid, Card, CardContent, CardActions, Typography, Box } from "@material-ui/core";
+import { Button, Grid, Card, CardContent, Typography, Box } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { apiConfig } from "../helpers/api";
 import Layout from "../layouts/index";

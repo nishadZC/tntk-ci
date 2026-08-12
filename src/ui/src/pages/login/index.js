@@ -7,7 +7,6 @@ import Box from "@material-ui/core/Box";
 import { userActions } from "../../redux/actions/auth";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: 500,
         lineHeight: 1.6,
         animation: "slideUp 0.8s ease-out 0.2s forwards",
-        opacity: 0,
     },
     formContainer: {
         width: "100%",
