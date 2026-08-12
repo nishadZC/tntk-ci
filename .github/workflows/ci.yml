@@ -64,29 +64,74 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-      - name: Build api image and push to ECR
+      - name: Build api image
         env:
           SHA8: ${{ needs.get_inputs.outputs.sha8 }}
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           COMPONENT_NAME: "api"
         run: |
           docker build -f .devops/docker/$COMPONENT_NAME.dockerfile -t $REGISTRY/$ENVIRONMENT/$COMPONENT_NAME:$SHA8 src/$COMPONENT_NAME/
+      - name: Run Trivy vulnerability scanner for api
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ steps.login-ecr.outputs.registry }}/${{ env.ENVIRONMENT }}/api:${{ needs.get_inputs.outputs.sha8 }}'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Push api image to ECR
+        env:
+          SHA8: ${{ needs.get_inputs.outputs.sha8 }}
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          COMPONENT_NAME: "api"
+        run: |
           docker push $REGISTRY/$ENVIRONMENT/$COMPONENT_NAME:$SHA8
-      - name: Build ui image and push to ECR
+      - name: Build ui image
         env:
           SHA8: ${{ needs.get_inputs.outputs.sha8 }}
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           COMPONENT_NAME: "ui"
         run: |
           docker build -f .devops/docker/$COMPONENT_NAME.dockerfile -t $REGISTRY/$ENVIRONMENT/$COMPONENT_NAME:$SHA8 src/$COMPONENT_NAME/
+      - name: Run Trivy vulnerability scanner for ui
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ steps.login-ecr.outputs.registry }}/${{ env.ENVIRONMENT }}/ui:${{ needs.get_inputs.outputs.sha8 }}'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Push ui image to ECR
+        env:
+          SHA8: ${{ needs.get_inputs.outputs.sha8 }}
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          COMPONENT_NAME: "ui"
+        run: |
           docker push $REGISTRY/$ENVIRONMENT/$COMPONENT_NAME:$SHA8
-      - name: Build lambda image and push to ECR
+      - name: Build lambda image
         env:
           SHA8: ${{ needs.get_inputs.outputs.sha8 }}
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           COMPONENT_NAME: "lambda"
         run: |
           docker build -f .devops/docker/$COMPONENT_NAME.dockerfile -t $REGISTRY/$ENVIRONMENT/$COMPONENT_NAME:$SHA8 src/api/
+      - name: Run Trivy vulnerability scanner for lambda
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ steps.login-ecr.outputs.registry }}/${{ env.ENVIRONMENT }}/lambda:${{ needs.get_inputs.outputs.sha8 }}'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Push lambda image to ECR
+        env:
+          SHA8: ${{ needs.get_inputs.outputs.sha8 }}
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          COMPONENT_NAME: "lambda"
+        run: |
           docker push $REGISTRY/$ENVIRONMENT/$COMPONENT_NAME:$SHA8
 
   k8s_manifest_storing:
