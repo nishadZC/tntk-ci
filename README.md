@@ -178,7 +178,8 @@ To achieve these stages in the workflow, we need to create a YAML file with the 
 
 1. Compile source code
 
-2. Build Docker images and push to the registry
+2. Build Docker images, scan for vulnerabilities using Trivy, and push to the registry
+   - *Note on Security Scanning:* Trivy is integrated into this step to scan the Docker images for OS and library vulnerabilities before they are pushed. It is configured with `exit-code 0`, which means it logs any high or critical vulnerabilities for visibility but intentionally does not fail or block the CI/CD pipeline.
 
 3. Save manifests to GitOps repository
 
