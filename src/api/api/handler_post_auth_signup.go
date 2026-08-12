@@ -18,11 +18,25 @@ func PostAuthSignUp(ctx *gin.Context) {
   ctx.Header("Content-Type", "application/json")
   if ok, body := handleReadBody(ctx); ok {
     if ok, user := handleJsonUnmarshalUser(ctx, body); ok {
-      if ok := handleCreateUser(ctx, *user); ok {
-        handleSuccessfulSignUp(ctx, user.Name)
+      if ok := handleValidateUser(ctx, *user); ok {
+        if ok := handleCreateUser(ctx, *user); ok {
+          handleSuccessfulSignUp(ctx, user.Name)
+        }
       }
     }
   }
+}
+
+func handleValidateUser(ctx *gin.Context, user User) bool {
+  if len(user.Password) < 8 {
+    ctx.String(http.StatusBadRequest, `{"message": "Password must be at least 8 characters long"}`)
+    return false
+  }
+  if len(user.Name) < 3 {
+    ctx.String(http.StatusBadRequest, `{"message": "Username must be at least 3 characters long"}`)
+    return false
+  }
+  return true
 }
 
 

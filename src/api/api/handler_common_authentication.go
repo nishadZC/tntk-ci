@@ -9,6 +9,6 @@ import (
 func handleUserNotAuthorized(ctx *gin.Context, authenticationData *userAuthenticationData) (){
   if ! authenticationData.IsAuthorized {
     ctx.Header("Content-Type", "application/json")
-    ctx.String(http.StatusUnauthorized, fmt.Sprintf(`{"username": "%s", "state": "unauthorized", "token": ""}`, authenticationData.Username))
+    ctx.String(http.StatusUnauthorized, fmt.Sprintf(`{"username": "%s", "state": "unauthorized", "token": "", "message": "%s"}`, authenticationData.Username, authenticationData.Message))
   }
 }
