@@ -10,7 +10,6 @@ import (
   "github.com/aws/aws-lambda-go/events"
   "github.com/aws/aws-lambda-go/lambda"
   "log"
-  "os"
   "strings"
   "time"
 )
@@ -47,9 +46,6 @@ func main() {
 
 
 func wkhtml(url string, workspace string) {
-  // Set explicit path for wkhtmltopdf since it's not in PATH
-  SetPath(os.Getenv("LAMBDA_TASK_ROOT") + "/bin/lambda/output/wkhtmltopdf")
-
   // Create new PDF generator
   pdfg, err := NewPDFGenerator()
   if err != nil {
